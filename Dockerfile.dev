@@ -1,0 +1,13 @@
+# Dockerfile.dev
+FROM maven:3.9.4-eclipse-temurin-21
+WORKDIR /app
+
+# 1) Pre-descarga dependencias
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# 2) Expone el puerto de tu app
+EXPOSE 8080
+
+# 3) Arranca en modo dev con DevTools
+ENTRYPOINT ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev"]

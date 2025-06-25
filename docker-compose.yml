@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: conexifydb
+      POSTGRES_USER: conexify
+      POSTGRES_PASSWORD: conexify
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      # Monta el código y las clases compiladas directamente
+      - ./:/app
+      # Monta tu ~/.m2 para cachear dependencias y acelerar los builds
+      - ~/.m2:/root/.m2
+    environment:
+      # Punteros al contenedor de Postgres
+      SPRING_R2DBC_URL: r2dbc:postgresql://db:5432/conexifydb
+      SPRING_R2DBC_USERNAME: conexify
+      SPRING_R2DBC_PASSWORD: conexify
+      # Clave maestra para Jasypt (definila en tu entorno)
+      JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:
