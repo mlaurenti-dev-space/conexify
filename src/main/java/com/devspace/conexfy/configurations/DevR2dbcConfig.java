@@ -13,6 +13,10 @@ import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.data.r2dbc.convert.R2dbcCustomConversions;
 import org.springframework.data.r2dbc.dialect.PostgresDialect;
 
+import com.devspace.conexfy.converters.ConAuthTypeEnumToStringWritingConverter;
+import com.devspace.conexfy.converters.ConHttpMethodEnumToStringWritingConverter;
+import com.devspace.conexfy.converters.ConStringToConAuthTypeEnumReadingConverter;
+import com.devspace.conexfy.converters.ConStringToConHttpMethodEnumReadingConverter;
 import com.devspace.conexfy.converters.DevDecryptReadingConverter;
 import com.devspace.conexfy.converters.DevEncryptWritingConverter;
 import com.devspace.conexfy.converters.DevJsonToMapReadingConverter;
@@ -44,6 +48,10 @@ public class DevR2dbcConfig extends AbstractR2dbcConfiguration {
         return R2dbcCustomConversions.of(
                 PostgresDialect.INSTANCE,
                 List.of(
+                        new ConAuthTypeEnumToStringWritingConverter(),
+                        new ConHttpMethodEnumToStringWritingConverter(),
+                        new ConStringToConAuthTypeEnumReadingConverter(),
+                        new ConStringToConHttpMethodEnumReadingConverter(),
                         new DevMapToJsonWritingConverter(),
                         new DevJsonToMapReadingConverter(),
                         new DevEncryptWritingConverter(encryptor),

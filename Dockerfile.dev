@@ -8,6 +8,7 @@ RUN mvn dependency:go-offline -B
 
 # 2) Expone el puerto de tu app
 EXPOSE 8080
+EXPOSE 8000
 
 # 3) Arranca en modo dev con DevTools
-ENTRYPOINT ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev"]
+ENTRYPOINT ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"]

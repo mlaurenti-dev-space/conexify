@@ -29,7 +29,8 @@ services:
       # Clave maestra para Jasypt (definila en tu entorno)
       JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_ENCRYPTOR_PASSWORD}
     ports:
-      - "8080:8080"
+      - "8080:8080"           # HTTP
+      - "127.0.0.1:8000:8000" # Debug solo en localhost
     depends_on:
       - db
 
