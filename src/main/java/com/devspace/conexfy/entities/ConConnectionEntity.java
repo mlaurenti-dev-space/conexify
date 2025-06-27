@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import com.devspace.conexfy.enums.ConAuthTypeEnum;
 import com.devspace.conexfy.enums.ConHttpMethodEnum;
+import com.devspace.conexfy.models.DevEncryptedString;
 
 @Table("con_connections")
 public class ConConnectionEntity {
@@ -41,16 +42,19 @@ public class ConConnectionEntity {
     // private DevEncryptedString authUsername;
     // @Column("auth_password")
     // private DevEncryptedString authPassword;
-    // @Column("auth_token")
-    // private DevEncryptedString authToken;
+    @Column("auth_token")
+    private DevEncryptedString authToken;
     // @Column("api_key")
     // private DevEncryptedString apiKey;
 
     @Column("read_timeout_ms")
-    private Integer readTimeoutMs;
+    private Integer readTimeoutMs = 10000; // Default 10 seconds
 
     @Column("connect_timeout_ms")
-    private Integer connectTimeoutMs;
+    private Integer connectTimeoutMs = 2000; // Default 2 seconds
+
+    @Column("depends_on")
+    private Long dependsOn;
 
     @CreatedDate
     @Column("created_at")
@@ -185,7 +189,7 @@ public class ConConnectionEntity {
     }
 
     public Integer getReadTimeoutMs() {
-        return readTimeoutMs;
+        return  readTimeoutMs;
     }
 
     public void setReadTimeoutMs(Integer readTimeoutMs) {
@@ -199,5 +203,21 @@ public class ConConnectionEntity {
     public void setConnectTimeoutMs(Integer connectTimeoutMs) {
         this.connectTimeoutMs = connectTimeoutMs;
     }
-    
+
+    public DevEncryptedString getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(DevEncryptedString authToken) {
+        this.authToken = authToken;
+    }
+
+    public Long getDependsOn() {
+        return dependsOn;
+    }
+
+    public void setDependsOn(Long dependsOn) {
+        this.dependsOn = dependsOn;
+    }
+
 }

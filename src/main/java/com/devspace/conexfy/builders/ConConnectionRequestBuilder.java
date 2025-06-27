@@ -1,5 +1,10 @@
 package com.devspace.conexfy.builders;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -25,7 +30,7 @@ public class ConConnectionRequestBuilder {
         this.clientFactory = clientFactory;
     }
 
-    public Mono<ResponseEntity<String>> execute(ConConnectionEntity conn) {
+    public Mono<String> execute(ConConnectionEntity conn) {
         // 1. Crea un WebClient configurado para esta Connection
         WebClient webClient = clientFactory.getClientFor(conn);
 
@@ -55,22 +60,17 @@ public class ConConnectionRequestBuilder {
             });
 
         // 5. Aplica la estrategia de autenticación según authType
-        // authFactory.getStrategy(conn).apply(spec, conn);
+        conConnectionAuthStrategyFactory.getStrategy(conn.getAuthType()).ifPresent(strategy -> strategy.apply(spec, conn));
 
         // 6. Si el método lleva body, lo adjunta
         if (requiresBody(conn.getMethod()) && conn.getBody() != null) {
-            spec = ((WebClient.RequestBodySpec) spec)
-                    .bodyValue(conn.getBody());
+            ((WebClient.RequestBodySpec) spec).bodyValue(conn.getBody());
         }
 
-        // 7. Ejecuta la petición y retorna todo el ResponseEntity<String>
+        // 7. Ejecuta la petición y retorna todo el Mono<String>
         return spec
             .retrieve()
-            .toEntity(String.class)
-            .doOnNext(response ->
-                log.debug("Connection id={} responded with status={}", conn.getId(), response.getStatusCode())
-            )
-            .doOnError(error ->
+            .bodyToMono(String.class).doOnError(error ->
                 log.error("Error executing connection id=" + conn.getId(), error)
             );
     }

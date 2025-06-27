@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.devspace.conexfy.enums.ConAuthTypeEnum;
 import com.devspace.conexfy.enums.ConHttpMethodEnum;
+import com.devspace.conexfy.models.DevEncryptedString;
 
 public record ConConnectionRequestDTO(
         String name,
@@ -14,5 +15,6 @@ public record ConConnectionRequestDTO(
         String url,
         Map<String, String> pathVarsJson,
         Map<String, String> queryParamsJson,
-        String body) {
+        String body,
+        DevEncryptedString authToken) {
 }

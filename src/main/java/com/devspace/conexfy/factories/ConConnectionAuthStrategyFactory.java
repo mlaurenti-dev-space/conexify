@@ -1,32 +1,34 @@
 package com.devspace.conexfy.factories;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
 import com.devspace.conexfy.enums.ConAuthTypeEnum;
 import com.devspace.conexfy.strategies.ConConnectionAuthStrategy;
-import com.devspace.conexfy.strategies.ConConnectionBearerAuthStrategy;
+import com.devspace.conexfy.strategies.ConConnectionOAuth2Strategy;
 
 @Component
 public class ConConnectionAuthStrategyFactory {
     
-    private final ConConnectionBearerAuthStrategy conConnectionBearerAuthStrategy;
+    private final ConConnectionOAuth2Strategy conConnectionOAuth2Strategy;
     private final Map<ConAuthTypeEnum, ConConnectionAuthStrategy> strategies;
 
-    public ConConnectionAuthStrategyFactory(ConConnectionBearerAuthStrategy conConnectionBearerAuthStrategy) {
-        this.conConnectionBearerAuthStrategy = conConnectionBearerAuthStrategy;
+    public ConConnectionAuthStrategyFactory(ConConnectionOAuth2Strategy conConnectionOAuth2Strategy) {
+        this.conConnectionOAuth2Strategy = conConnectionOAuth2Strategy;
+        
         this.strategies = Map.of(
-            ConAuthTypeEnum.BEARER, this.conConnectionBearerAuthStrategy
+            ConAuthTypeEnum.OAUTH2, this.conConnectionOAuth2Strategy
         );
     }
    
-    public ConConnectionAuthStrategy getStrategy(ConAuthTypeEnum authType) {
-        if (ConAuthTypeEnum.NONE == authType) return null; // No auth needed
+    public Optional<ConConnectionAuthStrategy> getStrategy(ConAuthTypeEnum authType) {
+        if (ConAuthTypeEnum.NO_AUTH == authType) return Optional.empty(); // No auth needed
 
         ConConnectionAuthStrategy strategy = strategies.get(authType);
         if (strategy != null) {
-            return strategy;
+            return Optional.of(strategy);
         }
     
         throw new IllegalArgumentException("Unsupported auth type: " + authType);

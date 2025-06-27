@@ -8,7 +8,7 @@ import org.springframework.lang.NonNull;
 import com.devspace.conexfy.models.DevEncryptedString;
 
 @ReadingConverter
-public class DevDecryptReadingConverter implements Converter<DevEncryptedString, String> {
+public class DevDecryptReadingConverter implements Converter<String, DevEncryptedString> {
     private final StringEncryptor encryptor;
 
     public DevDecryptReadingConverter(StringEncryptor encryptor) {
@@ -16,7 +16,7 @@ public class DevDecryptReadingConverter implements Converter<DevEncryptedString,
     }
 
     @Override
-    public String convert(@NonNull DevEncryptedString s) {
-        return encryptor.decrypt(s.getValue());
+    public DevEncryptedString convert(@NonNull String s) {
+        return new DevEncryptedString(encryptor.decrypt(s));
     }
 }

@@ -13,7 +13,7 @@ CREATE TABLE public.con_connections (
   name VARCHAR(255) NOT NULL, 
   description TEXT, 
   method VARCHAR(10) NOT NULL CHECK ((method):: text = ANY (ARRAY[ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS', 'TRACE' ] :: text[])), 
-  auth_type VARCHAR(10) NOT NULL CHECK ((auth_type):: text = ANY (ARRAY[ 'NONE', 'BASIC', 'BEARER', 'API_KEY' ] :: text[])), 
+  auth_type VARCHAR(10) NOT NULL CHECK ((auth_type):: text = ANY (ARRAY[ 'NO_AUTH', 'BASIC_AUTH', 'BEARER_TOKEN', 'API_KEY', 'OAUTH2' ] :: text[])), 
   headers TEXT, 
   url TEXT NOT NULL, 
   path_variables TEXT, 

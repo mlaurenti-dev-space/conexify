@@ -1,6 +1,11 @@
 package com.devspace.conexfy.controllers;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import java.net.URI;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +26,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @Tag(name = "Connections", description = "Operations for Connection entity")
@@ -77,9 +80,8 @@ public class ConConnectionController {
 
     @Operation(summary = "Execute a connection by ID")
     @PostMapping("/{id}/execute")
-    public Mono<ResponseEntity<String>> execute(@PathVariable Long id) {
+    public Mono<String> execute(@PathVariable Long id) {
         return conConnectionFacade.execute(id)
-                .map(response -> ResponseEntity.status(response.getStatusCode()).body(response.getBody()))
                 .switchIfEmpty(Mono.error(new ResponseStatusException(NOT_FOUND, "Connection not found")))
                 .doOnError(e -> {
                     if (e instanceof ResponseStatusException) {
