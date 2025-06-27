@@ -3,6 +3,7 @@ package com.devspace.conexfy.converters;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
+import org.springframework.lang.NonNull;
 
 import com.devspace.conexfy.models.DevEncryptedString;
 
@@ -15,7 +16,7 @@ public class DevDecryptReadingConverter implements Converter<DevEncryptedString,
     }
 
     @Override
-    public String convert(DevEncryptedString s) {
+    public String convert(@NonNull DevEncryptedString s) {
         return encryptor.decrypt(s.getValue());
     }
 }

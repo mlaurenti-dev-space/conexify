@@ -6,12 +6,16 @@ Api Docs --> http://localhost:8080/v3/api-docs
 back-pressure
 
 {
-  "name": "POST",
-  "description": "GET POST",
+  "name": "string",
+  "description": "string",
   "method": "GET",
   "authType": "NONE",
-  "headersJson": {},
-  "url": "https://jsonplaceholder.typicode.com/posts",
+  "headersJson": {
+    "additionalProp1": "string",
+    "additionalProp2": "string",
+    "additionalProp3": "string"
+  },
+  "url": "string",
   "pathVarsJson": {
     "additionalProp1": "string",
     "additionalProp2": "string",
@@ -22,8 +26,10 @@ back-pressure
     "additionalProp2": "string",
     "additionalProp3": "string"
   },
-  "body": ""
+  "body": "string"
 }
+
+"{"title": "foo", "body": "bar", "userId": 1}"
 
 {
   "name": "POST",

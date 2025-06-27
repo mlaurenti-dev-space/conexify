@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
+import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,8 +15,8 @@ public class DevJsonToMapReadingConverter implements Converter<String, Map<Strin
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public Map<String, String> convert(String source) {
-        if (source == null || source.isBlank())
+    public Map<String, String> convert(@NonNull String source) {
+        if (source.isBlank())
             return new HashMap<>();
         try {
             return mapper.readValue(source,

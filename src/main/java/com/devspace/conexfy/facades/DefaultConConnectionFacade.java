@@ -1,8 +1,6 @@
 package com.devspace.conexfy.facades;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.devspace.conexfy.dtos.ConConnectionRequestDTO;
 import com.devspace.conexfy.dtos.ConConnectionResponseDTO;

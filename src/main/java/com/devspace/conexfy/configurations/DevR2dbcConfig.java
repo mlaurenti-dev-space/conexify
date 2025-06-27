@@ -1,17 +1,16 @@
 package com.devspace.conexfy.configurations;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.domain.ReactiveAuditorAware;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.data.r2dbc.convert.R2dbcCustomConversions;
 import org.springframework.data.r2dbc.dialect.PostgresDialect;
+import org.springframework.lang.NonNull;
 
 import com.devspace.conexfy.converters.ConAuthTypeEnumToStringWritingConverter;
 import com.devspace.conexfy.converters.ConHttpMethodEnumToStringWritingConverter;
@@ -38,12 +37,14 @@ public class DevR2dbcConfig extends AbstractR2dbcConfiguration {
     }
 
     @Override
+    @NonNull
     public ConnectionFactory connectionFactory() {
         return cf;
     }
 
     @Bean
     @Override
+    @NonNull
     public R2dbcCustomConversions r2dbcCustomConversions() {
         return R2dbcCustomConversions.of(
                 PostgresDialect.INSTANCE,
