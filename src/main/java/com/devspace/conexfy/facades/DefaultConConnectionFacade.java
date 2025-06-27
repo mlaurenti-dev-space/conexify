@@ -1,7 +1,9 @@
 package com.devspace.conexfy.facades;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.devspace.conexfy.builders.ConConnectionRequestBuilder;
 import com.devspace.conexfy.dtos.ConConnectionRequestDTO;
 import com.devspace.conexfy.dtos.ConConnectionResponseDTO;
 import com.devspace.conexfy.entities.ConConnectionEntity;
@@ -16,10 +18,12 @@ public class DefaultConConnectionFacade implements ConConnectionFacade {
 
     private final ConConnectionMapper conConnectionMapper;
     private final ConConnectionService conConnectionService;
+    private final ConConnectionRequestBuilder conConnectionRequestBuilder;
 
-    public DefaultConConnectionFacade(ConConnectionMapper conConnectionMapper, ConConnectionService conConnectionService) {
+    public DefaultConConnectionFacade(ConConnectionMapper conConnectionMapper, ConConnectionService conConnectionService, ConConnectionRequestBuilder conConnectionRequestBuilder) {
         this.conConnectionMapper = conConnectionMapper;
         this.conConnectionService = conConnectionService;
+        this.conConnectionRequestBuilder = conConnectionRequestBuilder;
     }
 
     @Override
@@ -56,7 +60,8 @@ public class DefaultConConnectionFacade implements ConConnectionFacade {
     }
 
     @Override
-    public Mono<Void> execute(Long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    public Mono<ResponseEntity<String>> execute(Long id) {
+        return conConnectionService.findById(id)
+                .flatMap(conConnectionRequestBuilder::execute);
     }
 }

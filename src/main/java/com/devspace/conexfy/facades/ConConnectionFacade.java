@@ -1,5 +1,7 @@
 package com.devspace.conexfy.facades;
 
+import org.springframework.http.ResponseEntity;
+
 import com.devspace.conexfy.dtos.ConConnectionRequestDTO;
 import com.devspace.conexfy.dtos.ConConnectionResponseDTO;
 
@@ -12,5 +14,5 @@ public interface ConConnectionFacade {
     Mono<ConConnectionResponseDTO> create(ConConnectionRequestDTO dto);
     Mono<ConConnectionResponseDTO> update(Long id, ConConnectionRequestDTO dto);
     Mono<Void> delete(Long id);
-    Mono<Void> execute(Long id);
+    Mono<ResponseEntity<String>> execute(Long id);
 }

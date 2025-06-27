@@ -77,10 +77,17 @@ public class ConConnectionController {
 
     @Operation(summary = "Execute a connection by ID")
     @PostMapping("/{id}/execute")
-    public Mono<ResponseEntity<Void>> execute(@PathVariable Long id) {
+    public Mono<ResponseEntity<String>> execute(@PathVariable Long id) {
         return conConnectionFacade.execute(id)
-                .thenReturn(ResponseEntity.noContent().<Void>build())
-                .onErrorResume(e -> e instanceof ResponseStatusException,
-                        e -> Mono.error(new ResponseStatusException(NOT_FOUND, "Connection not found")));
+                .map(response -> ResponseEntity.status(response.getStatusCode()).body(response.getBody()))
+                .switchIfEmpty(Mono.error(new ResponseStatusException(NOT_FOUND, "Connection not found")))
+                .doOnError(e -> {
+                    if (e instanceof ResponseStatusException) {
+                        ResponseStatusException rse = (ResponseStatusException) e;
+                        if (rse.getStatusCode() == NOT_FOUND) {
+                            throw new ResponseStatusException(NOT_FOUND, "Connection not found");
+                        }
+                    }
+                });
     }
 }
