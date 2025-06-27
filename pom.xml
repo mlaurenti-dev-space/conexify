@@ -27,6 +27,8 @@
 		<url/>
 	</scm>
 	<properties>
+		<!-- Versión de MapStruct -->
+  		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
@@ -81,6 +83,20 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
 			<version>2.1.0</version>  <!-- o la última compatible con Spring Boot 3.3.x -->
+		</dependency>
+		  <!-- MapStruct core -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${mapstruct.version}</version>
+		</dependency>
+
+		<!-- (Opcional) si usas Spring para inyectar los mappers -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>${mapstruct.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

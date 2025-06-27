@@ -12,4 +12,5 @@ public interface ConConnectionFacade {
     Mono<ConConnectionResponseDTO> create(ConConnectionRequestDTO dto);
     Mono<ConConnectionResponseDTO> update(Long id, ConConnectionRequestDTO dto);
     Mono<Void> delete(Long id);
+    Mono<Void> execute(Long id);
 }

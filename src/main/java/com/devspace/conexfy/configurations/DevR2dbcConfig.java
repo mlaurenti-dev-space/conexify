@@ -61,7 +61,7 @@ public class DevR2dbcConfig extends AbstractR2dbcConfiguration {
 
     /** TODO: Implmentar usuario que crea y modifica */
     @Bean
-    public ReactiveAuditorAware<String> auditorAware() {
+    ReactiveAuditorAware<String> auditorAware() {
         return () -> Mono.empty();
     }
 }

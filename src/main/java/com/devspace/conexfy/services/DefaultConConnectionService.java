@@ -2,7 +2,7 @@ package com.devspace.conexfy.services;
 
 import org.springframework.stereotype.Service;
 
-import com.devspace.conexfy.entities.ConConecctionEntity;
+import com.devspace.conexfy.entities.ConConnectionEntity;
 import com.devspace.conexfy.repositories.ConConnectionRepository;
 
 import reactor.core.publisher.Flux;
@@ -18,22 +18,22 @@ public class DefaultConConnectionService implements ConConnectionService {
     }
 
     @Override
-    public Flux<ConConecctionEntity> findAll() {
+    public Flux<ConConnectionEntity> findAll() {
         return conConnectionRepository.findAll();
     }
 
     @Override
-    public Mono<ConConecctionEntity> findById(Long id) {
+    public Mono<ConConnectionEntity> findById(Long id) {
         return conConnectionRepository.findById(id);
     }
 
     @Override
-    public Mono<ConConecctionEntity> create(ConConecctionEntity entity) {
+    public Mono<ConConnectionEntity> create(ConConnectionEntity entity) {
         return conConnectionRepository.save(entity);
     }
 
     @Override
-    public Mono<ConConecctionEntity> update(ConConecctionEntity entity) {
+    public Mono<ConConnectionEntity> update(ConConnectionEntity entity) {
         return conConnectionRepository.save(entity);
     }
 

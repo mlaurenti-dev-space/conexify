@@ -4,7 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.devspace.conexfy.dtos.ConConnectionRequestDTO;
 import com.devspace.conexfy.dtos.ConConnectionResponseDTO;
-import com.devspace.conexfy.entities.ConConecctionEntity;
+import com.devspace.conexfy.entities.ConConnectionEntity;
+import com.devspace.conexfy.mappers.ConConnectionMapper;
 import com.devspace.conexfy.services.ConConnectionService;
 
 import reactor.core.publisher.Flux;
@@ -13,38 +14,40 @@ import reactor.core.publisher.Mono;
 @Component
 public class DefaultConConnectionFacade implements ConConnectionFacade {
 
+    private final ConConnectionMapper conConnectionMapper;
     private final ConConnectionService conConnectionService;
 
-    public DefaultConConnectionFacade(ConConnectionService conConnectionService) {
+    public DefaultConConnectionFacade(ConConnectionMapper conConnectionMapper, ConConnectionService conConnectionService) {
+        this.conConnectionMapper = conConnectionMapper;
         this.conConnectionService = conConnectionService;
     }
 
     @Override
     public Flux<ConConnectionResponseDTO> getAll() {
-        return conConnectionService.findAll().map(this::toResponseDto);
+        return conConnectionService.findAll().map(conConnectionMapper::toDto);
     }
 
     @Override
     public Mono<ConConnectionResponseDTO> getById(Long id) {
-        return conConnectionService.findById(id).map(this::toResponseDto);
+        return conConnectionService.findById(id).map(conConnectionMapper::toDto);
     }
 
     @Override
     public Mono<ConConnectionResponseDTO> create(ConConnectionRequestDTO dto) {
-        ConConecctionEntity entity = toEntity(dto);
-        return conConnectionService.create(entity).map(this::toResponseDto);
+        ConConnectionEntity entity = conConnectionMapper.toEntity(dto);
+        return conConnectionService.create(entity).map(conConnectionMapper::toDto);
     }
 
     @Override
     public Mono<ConConnectionResponseDTO> update(Long id, ConConnectionRequestDTO dto) {
         return conConnectionService.findById(id)
                 .map(existing -> {
-                    ConConecctionEntity updated = toEntity(dto);
+                    ConConnectionEntity updated = conConnectionMapper.toEntity(dto);
                     updated.setId(existing.getId());
                     return updated;
                 })
                 .flatMap(conConnectionService::update)
-                .map(this::toResponseDto);
+                .map(conConnectionMapper::toDto);
     }
 
     @Override
@@ -52,23 +55,8 @@ public class DefaultConConnectionFacade implements ConConnectionFacade {
         return conConnectionService.findById(id).flatMap(conn -> conConnectionService.deleteById(conn.getId()));
     }
 
-    // Conversion helpers
-    private ConConnectionResponseDTO toResponseDto(ConConecctionEntity c) {
-        return new ConConnectionResponseDTO(c.getId(), c.getName(), c.getDescription(), c.getMethod(), c.getAuthType(),
-                c.getHeadersJson(), c.getUrl(), c.getPathVarsJson(), c.getQueryParamsJson(), c.getBody());
-    }
-
-    private ConConecctionEntity toEntity(ConConnectionRequestDTO dto) {
-        ConConecctionEntity c = new ConConecctionEntity();
-        c.setName(dto.name());
-        c.setDescription(dto.description());
-        c.setMethod(dto.method());
-        c.setAuthType(dto.authType());
-        c.setHeadersJson(dto.headersJson());
-        c.setUrl(dto.url());
-        c.setPathVarsJson(dto.pathVarsJson());
-        c.setQueryParamsJson(dto.queryParamsJson());
-        c.setBody(dto.body());
-        return c;
+    @Override
+    public Mono<Void> execute(Long id) {
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 }

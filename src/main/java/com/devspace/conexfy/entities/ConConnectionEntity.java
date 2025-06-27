@@ -14,7 +14,7 @@ import com.devspace.conexfy.enums.ConAuthTypeEnum;
 import com.devspace.conexfy.enums.ConHttpMethodEnum;
 
 @Table("con_connections")
-public class ConConecctionEntity {
+public class ConConnectionEntity {
     @Id
     @Sequence(sequence = "con_connections_seq", schema = "public")
     private Long id;
@@ -62,9 +62,9 @@ public class ConConecctionEntity {
     // @Column("updated_by")
     // private String updatedBy;
 
-    public ConConecctionEntity(){};
+    public ConConnectionEntity(){};
     
-    public ConConecctionEntity(Long id, String name, String description, ConHttpMethodEnum method,
+    public ConConnectionEntity(Long id, String name, String description, ConHttpMethodEnum method,
             ConAuthTypeEnum authType, Map<String, String> headersJson, String url, Map<String, String> pathVarsJson,
             Map<String, String> queryParamsJson, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
