@@ -133,7 +133,7 @@
 				<configuration>
 					<changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
 					<promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-					<contexts>development,production</contexts>
+					<contexts>dev</contexts>
 				</configuration>
 			</plugin>
 			<plugin>
