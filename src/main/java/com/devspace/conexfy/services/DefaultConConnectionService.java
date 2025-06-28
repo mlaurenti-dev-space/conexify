@@ -4,25 +4,30 @@ import org.springframework.stereotype.Service;
 
 import com.devspace.conexfy.builders.ConConnectionRequestBuilder;
 import com.devspace.conexfy.entities.ConConnectionEntity;
-import com.devspace.conexfy.models.DevEncryptedString;
+import com.devspace.conexfy.factories.ConAuthPostProcessorFactory;
 import com.devspace.conexfy.repositories.ConConnectionRepository;
 import com.devspace.conexfy.utils.DevObjectMapperUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Default implementation of the ConConnectionService interface.
+ * Provides methods to manage connections, including CRUD operations and execution of connection requests.
+ */
 @Service
 public class DefaultConConnectionService implements ConConnectionService {
 
     private final ConConnectionRepository conConnectionRepository;
     private final ConConnectionRequestBuilder conConnectionRequestBuilder;
-    private final DevObjectMapperUtil devObjectMapperUtil;
+    private final ConAuthPostProcessorFactory conAuthPostProcessorFactory;
 
-    public DefaultConConnectionService(ConConnectionRepository conConnectionRepository, ConConnectionRequestBuilder conConnectionRequestBuilder, DevObjectMapperUtil devObjectMapperUtil) {
+    public DefaultConConnectionService(ConConnectionRepository conConnectionRepository,
+            ConConnectionRequestBuilder conConnectionRequestBuilder, DevObjectMapperUtil devObjectMapperUtil,
+            ConAuthPostProcessorFactory conAuthPostProcessorFactory) {
         this.conConnectionRepository = conConnectionRepository;
         this.conConnectionRequestBuilder = conConnectionRequestBuilder;
-        this.devObjectMapperUtil = devObjectMapperUtil;
+        this.conAuthPostProcessorFactory = conAuthPostProcessorFactory;
     }
 
     @Override
@@ -49,21 +54,17 @@ public class DefaultConConnectionService implements ConConnectionService {
     public Mono<Void> deleteById(Long id) {
         return conConnectionRepository.deleteById(id);
     }
-
+    
     @Override
     public Mono<String> execute(Long id) {
         return findById(id).flatMap(conn -> {
-            if (conn.getDependsOn() != null) {
-                // Si la conexión depende de otra, primero ejecutamos esa
-                return findById(conn.getDependsOn()).flatMap(conConnectionRequestBuilder::execute)
-                        .map(auth2 -> {
-                    
-                            String token = (String) devObjectMapperUtil.parseJson(auth2).get("token");                    
-                            conn.setAuthToken(new DevEncryptedString(token));
-                            return conn;
-                        }).flatMap(conConnectionRequestBuilder::execute);
+            if (conn.getDependsOn() == null) {
+                return conConnectionRequestBuilder.execute(conn);
             }
-            return conConnectionRequestBuilder.execute(conn);
+            return findById(conn.getDependsOn())
+                    .flatMap(conConnectionRequestBuilder::execute)
+                    .flatMap(responseBody -> conAuthPostProcessorFactory.getProcessor(conn.getAuthType()).apply(conn, responseBody))
+                    .flatMap(conConnectionRequestBuilder::execute);
         });
     }
 }

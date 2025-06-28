@@ -9,6 +9,12 @@ import com.devspace.conexfy.enums.ConAuthTypeEnum;
 import com.devspace.conexfy.strategies.auths.ConConnectionAuthStrategy;
 import com.devspace.conexfy.strategies.auths.ConConnectionOAuth2Strategy;
 
+/**
+ * Factory for creating authentication strategies for connections.
+ * 
+ * This factory provides a way to retrieve the appropriate authentication strategy
+ * based on the specified authentication type.
+ */
 @Component
 public class ConConnectionAuthStrategyFactory {
     

@@ -37,7 +37,7 @@ public class ConWebClientFactory {
          * - Un tope para “leer” la respuesta, protegiéndote de respuestas muy lentas o sockets que se quedan abiertos sin enviar datos.
          */
         if (conConnectionEntity.getReadTimeoutMs() != null && conConnectionEntity.getConnectTimeoutMs() != null) {
-            HttpClient httpClient = HttpClient.create()
+            HttpClient httpClient = HttpClient.create().followRedirect(true)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, conConnectionEntity.getConnectTimeoutMs())
                 .doOnConnected(ch -> ch.addHandlerLast(
                     new ReadTimeoutHandler(conConnectionEntity.getReadTimeoutMs() / 1000)
