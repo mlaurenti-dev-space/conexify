@@ -1,42 +1,6 @@
 # Conexify
 
-Swagger  --> http://localhost:8080/webjars/swagger-ui/index.html#/
-Api Docs --> http://localhost:8080/v3/api-docs
+This repository currently contains only a README and a `.gitignore` file. No source code has been committed yet. The project appears to be set up for development in a Visual Studio environment based on the contents of `.gitignore`.
 
-back-pressure
-
-{
-  "name": "string",
-  "description": "string",
-  "method": "GET",
-  "authType": "NONE",
-  "headersJson": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  },
-  "url": "string",
-  "pathVarsJson": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  },
-  "queryParamsJson": {
-    "additionalProp1": "string",
-    "additionalProp2": "string",
-    "additionalProp3": "string"
-  },
-  "body": "string"
-}
-
-"{"title": "foo", "body": "bar", "userId": 1}"
-
-{
-  "name": "POST",
-  "description": "GET POST",
-  "method": "GET",
-  "authType": "NONE",
-  "url": "https://jsonplaceholder.typicode.com/posts"
-}
-
+Once implementation begins, this README should be expanded to describe the goals, functionality, and usage of the project.
 
