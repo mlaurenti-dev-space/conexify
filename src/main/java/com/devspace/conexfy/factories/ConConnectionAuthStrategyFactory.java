@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.devspace.conexfy.enums.ConAuthTypeEnum;
-import com.devspace.conexfy.strategies.ConConnectionAuthStrategy;
-import com.devspace.conexfy.strategies.ConConnectionOAuth2Strategy;
+import com.devspace.conexfy.strategies.auths.ConConnectionAuthStrategy;
+import com.devspace.conexfy.strategies.auths.ConConnectionOAuth2Strategy;
 
 @Component
 public class ConConnectionAuthStrategyFactory {

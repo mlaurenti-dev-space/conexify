@@ -1,4 +1,4 @@
-package com.devspace.conexfy.strategies;
+package com.devspace.conexfy.strategies.auths;
 
 import org.springframework.web.reactive.function.client.WebClient;
 

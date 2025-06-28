@@ -11,4 +11,5 @@ public interface ConConnectionService {
     Mono<ConConnectionEntity> create(ConConnectionEntity entity);
     Mono<ConConnectionEntity> update(ConConnectionEntity entity);
     Mono<Void> deleteById(Long id);
+    Mono<String> execute(Long id);
 }
