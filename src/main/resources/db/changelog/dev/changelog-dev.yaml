@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/dev/changelog-dev.yaml
+      context: dev
