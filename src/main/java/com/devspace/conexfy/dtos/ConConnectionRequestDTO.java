@@ -16,5 +16,6 @@ public record ConConnectionRequestDTO(
         Map<String, String> pathVarsJson,
         Map<String, String> queryParamsJson,
         String body,
-        DevEncryptedString authToken) {
+        DevEncryptedString authToken,
+        Integer dependsOn) {
 }

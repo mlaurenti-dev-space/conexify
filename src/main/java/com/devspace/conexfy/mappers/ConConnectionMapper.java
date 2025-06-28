@@ -14,6 +14,8 @@ public interface ConConnectionMapper extends DevEntityMapper<ConConnectionEntity
     @Mapping(target = "id", ignore = true)
 	@Mapping(target = "createdAt", ignore = true)
 	@Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "readTimeoutMs", ignore = true)
+    @Mapping(target = "connectTimeoutMs", ignore = true)
 	ConConnectionEntity toEntity(ConConnectionRequestDTO dto);
 
     @Override
