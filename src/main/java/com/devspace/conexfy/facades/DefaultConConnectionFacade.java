@@ -1,13 +1,8 @@
 package com.devspace.conexfy.facades;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.crypto.spec.DESKeySpec;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.devspace.conexfy.builders.ConConnectionRequestBuilder;
