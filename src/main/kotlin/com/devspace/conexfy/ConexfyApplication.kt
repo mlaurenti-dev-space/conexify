@@ -1,16 +1,14 @@
-package com.devspace.conexfy;
+package com.devspace.conexfy
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @EnableEncryptableProperties
-public class ConexfyApplication {
+class ConexfyApplication
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConexfyApplication.class, args);
-	}
-
+fun main(args: Array<String>) {
+    runApplication<ConexfyApplication>(*args)
 }

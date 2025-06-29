@@ -1,9 +1,13 @@
-package com.devspace.conexfy.strategies.auths;
+package com.devspace.conexfy.strategies.auths
 
-import org.springframework.web.reactive.function.client.WebClient;
+import com.devspace.conexfy.entities.ConConnectionEntity
+import org.springframework.web.reactive.function.client.WebClient
 
-import com.devspace.conexfy.entities.ConConnectionEntity;
-
-public interface ConConnectionAuthStrategy {
-    void apply(WebClient.RequestHeadersSpec<?> request, ConConnectionEntity conConnectionEntity);
+/**
+ * Interface for defining authentication strategies for ConConnectionEntity.
+ * Implementations of this interface should apply the appropriate authentication headers
+ * to the WebClient request based on the ConConnectionEntity's authentication details.
+ */
+interface ConConnectionAuthStrategy {
+    fun apply(request: WebClient.RequestHeadersSpec<*>, conConnectionEntity: ConConnectionEntity)
 }
